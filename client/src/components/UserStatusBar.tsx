@@ -10,7 +10,7 @@ const UserStatusBar = () => {
             <div className="flex items-center">
                 <BurgerMenu />
                 <img
-                    src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&h=100&fit=crop"
+                    src={currentUser?.photo}
                     alt="Current user avatar"
                     className="w-8 h-8 rounded-full"
                 />

@@ -7,6 +7,7 @@ import { collection, doc, setDoc } from "firebase/firestore";
 interface User {
     id: string;
     name: string;
+    photo: string;
     status?: string;
 }
 
@@ -22,15 +23,16 @@ const useAuthStore = create<AuthState>((set) => {
         set({ loading: true });
         onAuthStateChanged(auth, async (currentUser) => {
             if (currentUser) {
+                console.log(currentUser)
                 const userData: User = {
                     id: currentUser.uid,
+                    photo: currentUser.photoURL || "Unknown",
                     name: currentUser.displayName || "Unknown",
                     status: "active", // Default or dynamically fetched
                 };
                 socket.emit("login", currentUser.uid);
                 const userRef = doc(collection(db, "users"), currentUser.uid);
                 await setDoc(userRef, userData, { merge: true });
-
                 set({
                     currentUser: userData,
                     loading: false,
@@ -54,6 +56,7 @@ const useAuthStore = create<AuthState>((set) => {
                 const result = await signInWithPopup(auth, googleAuthProvider);
                 const userData: User = {
                     id: result.user.uid,
+                    photo: result.user.photoURL || "Unknown",
                     name: result.user.displayName || "Unknown",
                     status: "active", // Default or dynamically fetched
                 };
