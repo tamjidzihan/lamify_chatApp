@@ -1,5 +1,5 @@
 const ORIGIN = '*'
-const PORT = 3001
+const PORT = 5000
 
 // for "atlas" edit MONGO_URI in -> .env file || for "community server" edit <MyDatabase>
 // const MONGO_URI = 'mongodb://localhost:27017/barisalProjectDB'
