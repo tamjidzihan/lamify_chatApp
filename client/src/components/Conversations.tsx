@@ -1,4 +1,6 @@
-import React from 'react'
+import { useEffect } from "react"
+import useAuthStore from "../stateProviders/AuthStore"
+import useFriendRequestStore from "../stateProviders/FriendRequestStore"
 
 
 const TEMPDATA = [
@@ -32,8 +34,46 @@ const TEMPDATA = [
 ]
 
 const Conversations = () => {
+
+    const { friendRequests, fetchFriendRequests } = useFriendRequestStore()
+    const { currentUser } = useAuthStore()
+
+    useEffect(() => {
+        if (currentUser) {
+            fetchFriendRequests(currentUser.id);
+        }
+    }, [currentUser?.id, fetchFriendRequests]);
+
     return (
         <div className="flex-1 overflow-y-auto">
+
+            {friendRequests.map((request) =>
+                <div key={`${request.from}-${request.to}`} className="p-4 hover:bg-gray-50 cursor-pointer">
+                    <div className="flex items-center">
+                        <div className="relative">
+                            <img
+                                src={request.user?.photo}
+                                alt={request.user?.name}
+                                className="w-10 h-10 rounded-full"
+                            />
+
+                        </div>
+                        <div className="ml-3 flex-1">
+                            <div className="flex items-center justify-between">
+                                <h3 className="font-medium">{request.user?.name}</h3>
+                            </div>
+                            <div className="flex items-center justify-between">
+                                <p className="text-sm text-gray-500 truncate">
+                                    Has send You a Friend Request
+                                </p>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+
             {TEMPDATA.map((chat, index) => (
                 <div key={index} className="p-4 hover:bg-gray-50 cursor-pointer">
                     <div className="flex items-center">

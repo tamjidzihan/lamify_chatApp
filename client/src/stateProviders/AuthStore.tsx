@@ -23,12 +23,10 @@ const useAuthStore = create<AuthState>((set) => {
         set({ loading: true });
         onAuthStateChanged(auth, async (currentUser) => {
             if (currentUser) {
-                console.log(currentUser)
                 const userData: User = {
                     id: currentUser.uid,
                     photo: currentUser.photoURL || "Unknown",
                     name: currentUser.displayName || "Unknown",
-                    status: "active", // Default or dynamically fetched
                 };
                 socket.emit("login", currentUser.uid);
                 const userRef = doc(collection(db, "users"), currentUser.uid);
@@ -58,7 +56,6 @@ const useAuthStore = create<AuthState>((set) => {
                     id: result.user.uid,
                     photo: result.user.photoURL || "Unknown",
                     name: result.user.displayName || "Unknown",
-                    status: "active", // Default or dynamically fetched
                 };
                 socket.emit("login", result.user.uid);
                 const userRef = doc(collection(db, "users"), result.user.uid);
