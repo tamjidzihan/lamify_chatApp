@@ -48,7 +48,7 @@ const Conversations = () => {
         <div className="flex-1 overflow-y-auto">
 
             {friendRequests.map((request) =>
-                <div key={`${request.from}-${request.to}`} className="p-4 hover:bg-gray-50 cursor-pointer">
+                <div key={`${request.from}-${request.to}`} className="p-4 hover:bg-gray-200 bg-cyan-100 cursor-pointer mb-2">
                     <div className="flex items-center">
                         <div className="relative">
                             <img
