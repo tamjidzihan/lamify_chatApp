@@ -1,43 +1,38 @@
-import React from 'react'
-
-const FRIENDSTEMPDATA = [
-    {
-        name: "Emma Stone",
-        avatar:
-            "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop",
-        status: "online",
-    },
-    {
-        name: "Chris Evans",
-        avatar:
-            "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop",
-        status: "online",
-    },
-    {
-        name: "Robert Downey",
-        avatar:
-            "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop",
-        status: "online",
-    },
-]
+import { useEffect } from 'react'
+import useAuthStore from '../stateProviders/AuthStore'
+import useFriendRequestStore from '../stateProviders/FriendRequestStore'
+import { useChatStore } from '../stateProviders/ChatStore'
 
 const FriendsStatusBar = () => {
+    const { friends, fetchFriends } = useFriendRequestStore()
+    const { currentUser } = useAuthStore()
+    const { setSelectedFriend } = useChatStore();
+    useEffect(() => {
+        if (currentUser) {
+            fetchFriends(currentUser)
+        }
+    })
+
     return (
-        <div className="px-4 md:px-6 py-2 md:py-3 border-b overflow-x-auto">
-            <div className="flex space-x-4">
-                {FRIENDSTEMPDATA.map((user, index) => (
-                    <div key={index} className="flex flex-col items-center">
+        <div className="px-4 md:px-6 md:py-3 border-b overflow-x-scroll overflow-y-hidden scroll-smooth">
+            <div className="flex space-x-5">
+                {friends.map((user, index) => (
+                    <div
+                        key={index}
+                        className="flex flex-col items-center cursor-pointer"
+                        onClick={() => setSelectedFriend(user)}>
                         <div className="relative">
                             <img
-                                src={user.avatar}
+                                src={user.photo}
                                 alt={user.name}
                                 className="w-10 h-10 rounded-full"
                             />
-                            <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white" />
+                            <div className={`absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-white ${user.status === "online" ? "bg-green-500" : "bg-gray-400"}`} />
                         </div>
                         <span className="text-xs mt-1">{user.name}</span>
                     </div>
                 ))}
+
             </div>
         </div>
     )

@@ -4,7 +4,7 @@ import { auth, db, googleAuthProvider } from "../firebase/FirebaseApp";
 import { socket } from "../services/websocket";
 import { collection, doc, setDoc } from "firebase/firestore";
 
-interface User {
+export interface User {
     id: string;
     name: string;
     photo: string;

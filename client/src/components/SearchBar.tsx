@@ -7,6 +7,7 @@ import useAuthStore from '../stateProviders/AuthStore';
 interface User {
     id: string;
     name: string;
+    photo: string;
 }
 
 const SearchBar = () => {
@@ -68,7 +69,7 @@ const SearchBar = () => {
                                     ? 'bg-gray-500 text-white cursor-not-allowed'
                                     : 'bg-green-500 text-white'
                                     }`}
-                                disabled={sentRequests[result.id]} // Disable button if request is sent
+                                disabled={sentRequests[result.id]}
                             >
                                 {sentRequests[result.id] ? 'Request Sent' : 'Add Friend'}
                             </button>

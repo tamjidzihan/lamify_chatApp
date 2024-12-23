@@ -44,6 +44,7 @@ io.on("connection", (socket) => {
         users[userId] = socket.id;
         await updateUserStatus(userId, "online");
         io.emit("userStatus", { userId, status: "online" });
+        console.log(`New user Login : ${userId}`)
     });
 
     socket.on("sendMessage", (message) => {
@@ -59,6 +60,7 @@ io.on("connection", (socket) => {
                 delete users[userId];
                 await updateUserStatus(userId, "offline");
                 io.emit("userStatus", { userId, status: "offline" });
+                console.log(`user disconnected : ${userId}`)
             }
         }
     });
