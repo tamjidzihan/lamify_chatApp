@@ -1,26 +1,29 @@
 import { useEffect } from 'react'
 import useAuthStore from '../stateProviders/AuthStore'
 import useFriendRequestStore from '../stateProviders/FriendRequestStore'
-import { useChatStore } from '../stateProviders/ChatStore'
+import useChatStore from '../stateProviders/ChatStore'
 
 const FriendsStatusBar = () => {
     const { friends, fetchFriends } = useFriendRequestStore()
     const { currentUser } = useAuthStore()
-    const { setSelectedFriend } = useChatStore();
+    const { setSelectedFriend, fetchMessages } = useChatStore();
     useEffect(() => {
         if (currentUser) {
             fetchFriends(currentUser)
         }
-    })
+    }, [])
 
     return (
-        <div className="px-4 md:px-6 md:py-3 border-b overflow-x-scroll overflow-y-hidden scroll-smooth">
+        <div className="px-4 md:px-6 md:py-3 border-b scroll-smooth">
             <div className="flex space-x-5">
                 {friends.map((user, index) => (
                     <div
                         key={index}
                         className="flex flex-col items-center cursor-pointer"
-                        onClick={() => setSelectedFriend(user)}>
+                        onClick={() => {
+                            setSelectedFriend(user)
+                            fetchMessages(user)
+                        }}>
                         <div className="relative">
                             <img
                                 src={user.photo}
@@ -32,7 +35,6 @@ const FriendsStatusBar = () => {
                         <span className="text-xs mt-1">{user.name}</span>
                     </div>
                 ))}
-
             </div>
         </div>
     )

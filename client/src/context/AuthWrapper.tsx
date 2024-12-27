@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import useAuthStore from '../stateProviders/AuthStore';
+import useChatStore from '../stateProviders/ChatStore';
 
 const AuthWrapper = () => {
     const { currentUser, loading } = useAuthStore();

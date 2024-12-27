@@ -3,8 +3,8 @@ import BurgerMenu from './BurgerMenu'
 import useAuthStore from '../stateProviders/AuthStore'
 
 const UserStatusBar = () => {
-
     const { logOut, currentUser } = useAuthStore()
+
     return (
         <div className="p-4 border-b flex items-center justify-between">
             <div className="flex items-center">
