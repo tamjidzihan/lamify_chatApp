@@ -32,6 +32,16 @@ const updateUserStatus = async (userId, status) => {
     }
 };
 
+const saveChatHistory = async (message) => {
+    try {
+        const chatHistoryRef = collection(db, "chatHistory");
+        await addDoc(chatHistoryRef, message);
+        console.log("Chat message saved:", message);
+    } catch (error) {
+        console.error("Error saving chat message:", error);
+    }
+};
+
 
 app.get("/", (req, res) =>
     res.status(200).json({ message: "WebSocket Process Started" })
@@ -47,8 +57,9 @@ io.on("connection", (socket) => {
         console.log(`New user Login : ${userId}`)
     });
 
-    socket.on("sendMessage", (message) => {
+    socket.on("sendMessage", async (message) => {
         const recipientSocketId = users[message.to];
+        await saveChatHistory(message);
         if (recipientSocketId) {
             io.to(recipientSocketId).emit("receiveMessage", message);
         }
